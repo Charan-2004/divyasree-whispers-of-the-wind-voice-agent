@@ -22,262 +22,286 @@
         </div>
       </div>
 
+      <!-- Top Page Navigation Tabs -->
+      <div class="nav-tabs-group">
+        <button class="btn-nav-tab active" id="tabVoiceAgent">
+          <span class="tab-icon">🎙️</span>
+          <span>Live Voice Agent</span>
+        </button>
+        <button class="btn-nav-tab" id="tabArchitecture">
+          <span class="tab-icon">🏛️</span>
+          <span>Architecture & Specs</span>
+        </button>
+      </div>
+
       <div class="system-status-badge">
         <span class="status-indicator-dot online"></span>
-        <span class="status-label" id="connectionStatus">System Connected • Gemini 2.5 Flash & Sarvam v3</span>
+        <span class="status-label" id="connectionStatus">System Connected • Gemini 2.5 & Sarvam v3</span>
       </div>
     </header>
 
-    <!-- Main Workspace Grid -->
-    <main class="main-grid">
-      <!-- Left Column: Outbound Call Center & Voice Indicator -->
-      <section class="call-control-panel card-surface">
-        <div class="panel-header">
-          <div class="header-label-group">
-            <span class="section-kicker">OUTBOUND DIALER</span>
-            <h2 class="section-heading">Lead Voice Session</h2>
+    <!-- Page View 1: Main Live Voice Agent Workspace -->
+    <div id="viewVoiceAgent" class="page-view active-view">
+      <main class="main-grid">
+        <!-- Left Column: Outbound Call Center & Voice Indicator -->
+        <section class="call-control-panel card-surface">
+          <div class="panel-header">
+            <div class="header-label-group">
+              <span class="section-kicker">OUTBOUND DIALER</span>
+              <h2 class="section-heading">Lead Voice Session</h2>
+            </div>
+            <div class="call-timer-badge" id="callTimer">00:00</div>
           </div>
-          <div class="call-timer-badge" id="callTimer">00:00</div>
-        </div>
 
-        <!-- Lead Metadata Card -->
-        <div class="lead-selector-wrapper">
-          <div class="lead-meta-row" id="leadMeta">
-            <div class="meta-item">
-              <span class="meta-icon">📞</span>
-              <span class="meta-val" id="leadPhone">Live Mic / Freeform Voice</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-icon">📍</span>
-              <span class="meta-val" id="leadCity">Direct Lead Session</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-icon">🎯</span>
-              <span class="meta-val" id="leadGoal">Real-Time Qualification</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Voice Visualizer Ring Container -->
-        <div class="voice-stage">
-          <div class="voice-orb-container" id="orbContainer">
-            <div class="pulse-ring ring-1"></div>
-            <div class="pulse-ring ring-2"></div>
-            <div class="pulse-ring ring-3"></div>
-            <div class="central-orb" id="centralOrb">
-              <div class="sound-wave-bars">
-                <span class="bar bar-1"></span>
-                <span class="bar bar-2"></span>
-                <span class="bar bar-3"></span>
-                <span class="bar bar-4"></span>
-                <span class="bar bar-5"></span>
+          <!-- Lead Metadata Card -->
+          <div class="lead-selector-wrapper">
+            <div class="lead-meta-row" id="leadMeta">
+              <div class="meta-item">
+                <span class="meta-icon">📞</span>
+                <span class="meta-val" id="leadPhone">Live Mic / Freeform Voice</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-icon">📍</span>
+                <span class="meta-val" id="leadCity">Direct Lead Session</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-icon">🎯</span>
+                <span class="meta-val" id="leadGoal">Real-Time Qualification</span>
               </div>
             </div>
           </div>
-          <div class="voice-status-text" id="voiceStatusText">Ready to Initiate Call</div>
-        </div>
 
-        <!-- Primary Call Actions -->
-        <div class="call-actions-row">
-          <button id="btnStartCall" class="btn-primary-action btn-call">
-            <span class="btn-icon">📞</span>
-            <span class="btn-label">Call Lead</span>
-          </button>
-          
-          <button id="btnEndCall" class="btn-danger-action btn-hangup" disabled>
-            <span class="btn-icon">✖</span>
-            <span class="btn-label">End Call</span>
-          </button>
-        </div>
+          <!-- Voice Visualizer Ring Container -->
+          <div class="voice-stage">
+            <div class="voice-orb-container" id="orbContainer">
+              <div class="pulse-ring ring-1"></div>
+              <div class="pulse-ring ring-2"></div>
+              <div class="pulse-ring ring-3"></div>
+              <div class="central-orb" id="centralOrb">
+                <div class="sound-wave-bars">
+                  <span class="bar bar-1"></span>
+                  <span class="bar bar-2"></span>
+                  <span class="bar bar-3"></span>
+                  <span class="bar bar-4"></span>
+                  <span class="bar bar-5"></span>
+                </div>
+              </div>
+            </div>
+            <div class="voice-status-text" id="voiceStatusText">Ready to Initiate Call</div>
+          </div>
 
-        <!-- Voice / Mic Audio Mode -->
-        <div class="mic-status-bar">
-          <div class="mic-toggle-group">
-            <button id="btnPushToTalk" class="btn-ptt" title="Click or Hold Spacebar to speak cleanly">
-              <span class="mic-icon-indicator" id="micIcon">🎙️</span>
-              <span class="mic-label" id="micStatusLabel">Tap or Hold Space to Speak</span>
+          <!-- Primary Call Actions -->
+          <div class="call-actions-row">
+            <button id="btnStartCall" class="btn-primary-action btn-call">
+              <span class="btn-icon">📞</span>
+              <span class="btn-label">Call Lead</span>
             </button>
-            <button id="btnToggleAutoMic" class="btn-mic-mode" title="Toggle Auto Voice Activation">
-              Auto VAD: ON
+
+            <button id="btnEndCall" class="btn-danger-action btn-hangup" disabled>
+              <span class="btn-icon">✖</span>
+              <span class="btn-label">End Call</span>
             </button>
           </div>
-          <div class="text-fallback-input-group">
-            <input type="text" id="manualTextInput" placeholder="Speak into mic or type your question..." disabled>
-            <button id="btnSendText" class="btn-send" disabled>→</button>
-          </div>
-        </div>
-      </section>
 
-      <!-- Middle Column: Live Qualification Checklist Card -->
-      <section class="qualification-panel card-surface">
-        <div class="panel-header">
-          <div class="header-label-group">
-            <span class="section-kicker">QUALIFICATION STATE MACHINE</span>
-            <h2 class="section-heading">4-Point Lead Fitment</h2>
+          <!-- Voice / Mic Audio Mode -->
+          <div class="mic-status-bar">
+            <div class="mic-toggle-group">
+              <button id="btnPushToTalk" class="btn-ptt" title="Click or Hold Spacebar to speak cleanly">
+                <span class="mic-icon-indicator" id="micIcon">🎙️</span>
+                <span class="mic-label" id="micStatusLabel">Tap or Hold Space to Speak</span>
+              </button>
+              <button id="btnToggleAutoMic" class="btn-mic-mode" title="Toggle Auto Voice Activation">
+                Auto VAD: ON
+              </button>
+            </div>
+            <div class="text-fallback-input-group">
+              <input type="text" id="manualTextInput" placeholder="Speak into mic or type your question..." disabled>
+              <button id="btnSendText" class="btn-send" disabled>→</button>
+            </div>
           </div>
-          <div class="score-pill score-warm" id="leadClassificationBadge">WARM</div>
-        </div>
+        </section>
 
-        <div class="checkpoints-list">
-          <!-- Checkpoint 1: Intent -->
-          <div class="checkpoint-card" id="cardIntent">
-            <div class="checkpoint-icon">🏡</div>
-            <div class="checkpoint-body">
-              <div class="checkpoint-top">
-                <span class="checkpoint-title">1. Intent Qualification</span>
-                <span class="status-chip chip-pending" id="statusIntent">Pending</span>
+        <!-- Middle Column: Live Qualification Checklist Card -->
+        <section class="qualification-panel card-surface">
+          <div class="panel-header">
+            <div class="header-label-group">
+              <span class="section-kicker">QUALIFICATION STATE MACHINE</span>
+              <h2 class="section-heading">4-Point Lead Fitment</h2>
+            </div>
+            <div class="score-pill score-warm" id="leadClassificationBadge">WARM</div>
+          </div>
+
+          <div class="checkpoints-list">
+            <!-- Checkpoint 1: Intent -->
+            <div class="checkpoint-card" id="cardIntent">
+              <div class="checkpoint-icon">🏡</div>
+              <div class="checkpoint-body">
+                <div class="checkpoint-top">
+                  <span class="checkpoint-title">1. Intent Qualification</span>
+                  <span class="status-chip chip-pending" id="statusIntent">Pending</span>
+                </div>
+                <p class="checkpoint-desc">Self-use / Weekend retreat vs. Long-term investment</p>
+                <div class="checkpoint-val" id="valIntent">Awaiting lead input...</div>
               </div>
-              <p class="checkpoint-desc">Self-use / Weekend retreat vs. Long-term investment</p>
-              <div class="checkpoint-val" id="valIntent">Awaiting lead input...</div>
+            </div>
+
+            <!-- Checkpoint 2: Geography -->
+            <div class="checkpoint-card" id="cardGeography">
+              <div class="checkpoint-icon">📍</div>
+              <div class="checkpoint-body">
+                <div class="checkpoint-top">
+                  <span class="checkpoint-title">2. Geography Fitment</span>
+                  <span class="status-chip chip-pending" id="statusGeography">Pending</span>
+                </div>
+                <p class="checkpoint-desc">Nandi Hills / Devanahalli Airport Corridor (20 mins)</p>
+                <div class="checkpoint-val" id="valGeography">Awaiting lead input...</div>
+              </div>
+            </div>
+
+            <!-- Checkpoint 3: Budget -->
+            <div class="checkpoint-card" id="cardBudget">
+              <div class="checkpoint-icon">💰</div>
+              <div class="checkpoint-body">
+                <div class="checkpoint-top">
+                  <span class="checkpoint-title">3. Source Budget Fitment</span>
+                  <span class="status-chip chip-pending" id="statusBudget">Pending</span>
+                </div>
+                <p class="checkpoint-desc">Starting price: ₹92.4 Lakh up to ₹2.46 Crore</p>
+                <div class="checkpoint-val" id="valBudget">Awaiting lead input...</div>
+              </div>
+            </div>
+
+            <!-- Checkpoint 4: Timeline -->
+            <div class="checkpoint-card" id="cardTimeline">
+              <div class="checkpoint-icon">⏳</div>
+              <div class="checkpoint-body">
+                <div class="checkpoint-top">
+                  <span class="checkpoint-title">4. Timeline Alignment</span>
+                  <span class="status-chip chip-pending" id="statusTimeline">Pending</span>
+                </div>
+                <p class="checkpoint-desc">Phased development delivering by December 2029</p>
+                <div class="checkpoint-val" id="valTimeline">Awaiting lead input...</div>
+              </div>
             </div>
           </div>
 
-          <!-- Checkpoint 2: Geography -->
-          <div class="checkpoint-card" id="cardGeography">
-            <div class="checkpoint-icon">📍</div>
-            <div class="checkpoint-body">
-              <div class="checkpoint-top">
-                <span class="checkpoint-title">2. Geography Fitment</span>
-                <span class="status-chip chip-pending" id="statusGeography">Pending</span>
-              </div>
-              <p class="checkpoint-desc">Nandi Hills / Devanahalli Airport Corridor (20 mins)</p>
-              <div class="checkpoint-val" id="valGeography">Awaiting lead input...</div>
+          <div class="panel-footer-note">
+            <span>⚡ Live AI Voice Qualification Consultant for Divyasree Developers</span>
+          </div>
+        </section>
+
+        <!-- Right Column: Live Conversation Transcript -->
+        <section class="transcript-panel card-surface">
+          <div class="panel-header">
+            <div class="header-label-group">
+              <span class="section-kicker">REAL-TIME CALL AUDIT</span>
+              <h2 class="section-heading">Live Conversation Transcript</h2>
+            </div>
+            <button class="btn-ghost-sm" id="btnClearLog">Clear Log</button>
+          </div>
+
+          <!-- Transcript Feed Box -->
+          <div class="transcript-feed" id="transcriptFeed">
+            <div class="transcript-placeholder">
+              <div class="placeholder-icon">💬</div>
+              <div class="placeholder-text">Click "Call Lead" to begin real-time voice consultation with Rohan.</div>
             </div>
           </div>
 
-          <!-- Checkpoint 3: Budget -->
-          <div class="checkpoint-card" id="cardBudget">
-            <div class="checkpoint-icon">💰</div>
-            <div class="checkpoint-body">
-              <div class="checkpoint-top">
-                <span class="checkpoint-title">3. Source Budget Fitment</span>
-                <span class="status-chip chip-pending" id="statusBudget">Pending</span>
-              </div>
-              <p class="checkpoint-desc">Starting price: ₹92.4 Lakh up to ₹2.46 Crore</p>
-              <div class="checkpoint-val" id="valBudget">Awaiting lead input...</div>
-            </div>
+          <div class="transcript-footer">
+            <button class="btn-secondary-action btn-full" id="btnExportSummary">
+              <span>📄 View Lead Summary & Export Report</span>
+            </button>
           </div>
+        </section>
+      </main>
+    </div>
 
-          <!-- Checkpoint 4: Timeline -->
-          <div class="checkpoint-card" id="cardTimeline">
-            <div class="checkpoint-icon">⏳</div>
-            <div class="checkpoint-body">
-              <div class="checkpoint-top">
-                <span class="checkpoint-title">4. Timeline Alignment</span>
-                <span class="status-chip chip-pending" id="statusTimeline">Pending</span>
-              </div>
-              <p class="checkpoint-desc">Phased development delivering by December 2029</p>
-              <div class="checkpoint-val" id="valTimeline">Awaiting lead input...</div>
-            </div>
+    <!-- Page View 2: Dedicated Architecture, Specs & About Page -->
+    <div id="viewArchitecture" class="page-view" style="display: none;">
+      <section class="architecture-page card-surface">
+        <div class="arch-page-header">
+          <div>
+            <span class="section-kicker">TECHNICAL BLUEPRINT & DEMO SPECS</span>
+            <h2 class="section-heading">System Architecture & Project Information</h2>
           </div>
-        </div>
-
-        <div class="panel-footer-note">
-          <span>⚡ Live AI Voice Qualification Consultant for Divyasree Developers</span>
-        </div>
-      </section>
-
-      <!-- Right Column: Live Conversation Transcript -->
-      <section class="transcript-panel card-surface">
-        <div class="panel-header">
-          <div class="header-label-group">
-            <span class="section-kicker">REAL-TIME CALL AUDIT</span>
-            <h2 class="section-heading">Live Conversation Transcript</h2>
-          </div>
-          <button class="btn-ghost-sm" id="btnClearLog">Clear Log</button>
-        </div>
-
-        <!-- Transcript Feed Box -->
-        <div class="transcript-feed" id="transcriptFeed">
-          <div class="transcript-placeholder">
-            <div class="placeholder-icon">💬</div>
-            <div class="placeholder-text">Click "Call Lead" to begin real-time voice consultation with Rohan.</div>
-          </div>
-        </div>
-
-        <div class="transcript-footer">
-          <button class="btn-secondary-action btn-full" id="btnExportSummary">
-            <span>📄 View Lead Summary & Export Report</span>
+          <button class="btn-primary-action btn-sm" id="btnBackToDialer">
+            <span>← Back to Voice Agent</span>
           </button>
         </div>
+
+        <div class="demo-info-grid">
+          <!-- Left Column: About & Why Browser-Based -->
+          <div class="info-block">
+            <div class="info-block-header">
+              <span class="info-icon">ℹ️</span>
+              <h3 class="info-title">About this Demo</h3>
+            </div>
+            <p class="info-text">
+              <strong>Whispers of the Wind</strong> is a browser-based AI voice-agent demonstration built to showcase the complete conversational experience without requiring paid telephony infrastructure.
+            </p>
+            
+            <div class="info-sub-block">
+              <h4 class="info-subtitle">Why browser-based?</h4>
+              <p class="info-text">
+                For this assignment, I chose a browser-based outbound-call simulation rather than PSTN/telephony infrastructure. This keeps the demonstration focused on the AI voice-agent experience while avoiding unnecessary telephony costs.
+              </p>
+            </div>
+
+            <div class="info-sub-block">
+              <h4 class="info-subtitle">Open Source Repository</h4>
+              <p class="info-text">
+                The complete implementation, including the frontend, backend, voice-agent architecture, qualification logic, prompts, and supporting documentation is available in the public GitHub repository:
+              </p>
+              <a href="https://github.com/Charan-2004/divyasree-whispers-of-the-wind-voice-agent" target="_blank" rel="noopener noreferrer" class="btn-github-link">
+                <span>🐙 VIEW SOURCE CODE →</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Column: Architecture & Quotas -->
+          <div class="info-block">
+            <div class="info-block-header">
+              <span class="info-icon">🏛️</span>
+              <h3 class="info-title">Architecture Specs</h3>
+            </div>
+            <div class="arch-specs-list">
+              <div class="arch-spec-item">
+                <span class="spec-label">Speech Recognition</span>
+                <span class="spec-value">Sarvam Saaras v3</span>
+              </div>
+              <div class="arch-spec-item">
+                <span class="spec-label">Conversational Intelligence</span>
+                <span class="spec-value">Google Gemini 2.5 Flash</span>
+              </div>
+              <div class="arch-spec-item">
+                <span class="spec-label">Speech Synthesis</span>
+                <span class="spec-value">Sarvam Bulbul v3 (Pipelined Stream)</span>
+              </div>
+              <div class="arch-spec-item">
+                <span class="spec-label">Qualification Engine</span>
+                <span class="spec-value">Application-level deterministic state machine</span>
+              </div>
+              <div class="arch-spec-item">
+                <span class="spec-label">Realtime Voice</span>
+                <span class="spec-value">LiveKit Cloud Engine</span>
+              </div>
+              <div class="arch-spec-item">
+                <span class="spec-label">Deployment</span>
+                <span class="spec-value">Browser-based demo</span>
+              </div>
+            </div>
+
+            <div class="info-sub-block quota-box">
+              <h4 class="info-subtitle">Demo Availability & API Quotas</h4>
+              <p class="info-text">
+                This demonstration relies on external AI APIs and their available quotas. If the voice agent is temporarily unavailable, slow, or unable to respond, the most likely cause may be temporary API availability or exhausted development/demo credits rather than an issue with the interface itself. The repository contains the complete implementation and setup instructions for running the system independently.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
-    </main>
-
-    <!-- Demo Information, Architecture & FAQ Section -->
-    <section class="demo-info-section card-surface">
-      <div class="demo-info-grid">
-        
-        <!-- Left Column: About & Why Browser-Based -->
-        <div class="info-block">
-          <div class="info-block-header">
-            <span class="info-icon">ℹ️</span>
-            <h3 class="info-title">About this Demo</h3>
-          </div>
-          <p class="info-text">
-            <strong>Whispers of the Wind</strong> is a browser-based AI voice-agent demonstration built to showcase the complete conversational experience without requiring paid telephony infrastructure.
-          </p>
-          
-          <div class="info-sub-block">
-            <h4 class="info-subtitle">Why browser-based?</h4>
-            <p class="info-text">
-              For this assignment, I chose a browser-based outbound-call simulation rather than PSTN/telephony infrastructure. This keeps the demonstration focused on the AI voice-agent experience while avoiding unnecessary telephony costs.
-            </p>
-          </div>
-
-          <div class="info-sub-block">
-            <h4 class="info-subtitle">Open Source Repository</h4>
-            <p class="info-text">
-              The complete implementation, including the frontend, backend, voice-agent architecture, qualification logic, prompts, and supporting documentation is available in the public GitHub repository:
-            </p>
-            <a href="https://github.com/Charan-2004/divyasree-whispers-of-the-wind-voice-agent" target="_blank" rel="noopener noreferrer" class="btn-github-link">
-              <span>🐙 VIEW SOURCE CODE →</span>
-            </a>
-          </div>
-        </div>
-
-        <!-- Right Column: Architecture & Quotas -->
-        <div class="info-block">
-          <div class="info-block-header">
-            <span class="info-icon">🏛️</span>
-            <h3 class="info-title">Architecture Specs</h3>
-          </div>
-          <div class="arch-specs-list">
-            <div class="arch-spec-item">
-              <span class="spec-label">Speech Recognition</span>
-              <span class="spec-value">Sarvam Saaras v3</span>
-            </div>
-            <div class="arch-spec-item">
-              <span class="spec-label">Conversational Intelligence</span>
-              <span class="spec-value">Google Gemini 2.5 Flash</span>
-            </div>
-            <div class="arch-spec-item">
-              <span class="spec-label">Speech Synthesis</span>
-              <span class="spec-value">Sarvam Bulbul v3 (Pipelined Stream)</span>
-            </div>
-            <div class="arch-spec-item">
-              <span class="spec-label">Qualification Engine</span>
-              <span class="spec-value">Application-level deterministic state machine</span>
-            </div>
-            <div class="arch-spec-item">
-              <span class="spec-label">Realtime Voice</span>
-              <span class="spec-value">LiveKit Cloud Engine</span>
-            </div>
-            <div class="arch-spec-item">
-              <span class="spec-label">Deployment</span>
-              <span class="spec-value">Browser-based demo</span>
-            </div>
-          </div>
-
-          <div class="info-sub-block quota-box">
-            <h4 class="info-subtitle">Demo Availability & API Quotas</h4>
-            <p class="info-text">
-              This demonstration relies on external AI APIs and their available quotas. If the voice agent is temporarily unavailable, slow, or unable to respond, the most likely cause may be temporary API availability or exhausted development/demo credits rather than an issue with the interface itself. The repository contains the complete implementation and setup instructions for running the system independently.
-            </p>
-          </div>
-        </div>
-
-      </div>
-    </section>
+    </div>
 
     <!-- Modal: Lead Summary & Report -->
     <div class="modal-backdrop" id="summaryModal">

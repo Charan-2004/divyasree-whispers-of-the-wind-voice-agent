@@ -1216,6 +1216,31 @@ dom.btnCopyJson.addEventListener('click', () => {
   alert('Full JSON copied to clipboard!');
 });
 
+// Top Navigation Page View Switching
+const tabVoiceAgent = document.getElementById('tabVoiceAgent');
+const tabArchitecture = document.getElementById('tabArchitecture');
+const btnBackToDialer = document.getElementById('btnBackToDialer');
+const viewVoiceAgent = document.getElementById('viewVoiceAgent');
+const viewArchitecture = document.getElementById('viewArchitecture');
+
+function switchPageView(viewName) {
+  if (viewName === 'architecture') {
+    if (viewVoiceAgent) viewVoiceAgent.style.display = 'none';
+    if (viewArchitecture) viewArchitecture.style.display = 'flex';
+    if (tabVoiceAgent) tabVoiceAgent.classList.remove('active');
+    if (tabArchitecture) tabArchitecture.classList.add('active');
+  } else {
+    if (viewArchitecture) viewArchitecture.style.display = 'none';
+    if (viewVoiceAgent) viewVoiceAgent.style.display = 'flex';
+    if (tabArchitecture) tabArchitecture.classList.remove('active');
+    if (tabVoiceAgent) tabVoiceAgent.classList.add('active');
+  }
+}
+
+if (tabVoiceAgent) tabVoiceAgent.addEventListener('click', () => switchPageView('voice'));
+if (tabArchitecture) tabArchitecture.addEventListener('click', () => switchPageView('architecture'));
+if (btnBackToDialer) btnBackToDialer.addEventListener('click', () => switchPageView('voice'));
+
 // Init on Load
 window.addEventListener('DOMContentLoaded', () => {
   initWebSocket();
