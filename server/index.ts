@@ -15,7 +15,15 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../public')));
+
+// Robust static folder resolution for both dev and compiled dist environments
+const publicPath = path.resolve(process.cwd(), 'public');
+app.use(express.static(publicPath));
+
+// Explicit route for homepage
+app.get('/', (_req, res) => {
+  res.sendFile(path.join(publicPath, 'index.html'));
+});
 
 const server = createServer(app);
 const wss = new WebSocketServer({ server, path: '/ws/call' });
