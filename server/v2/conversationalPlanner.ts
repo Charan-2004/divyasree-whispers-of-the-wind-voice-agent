@@ -144,11 +144,13 @@ LATEST USER UTTERANCE:
 
 TASK INSTRUCTIONS:
 1. If the user asked a question (e.g. ROI, amenities, how did you get my number, speak in Hindi), answer it FIRST with confidence.
-2. DO NOT SKIP ANY CHECKPOINT:
-   - If Geography is pending: Describe the private valley at the foothills of Nandi Hills (20 mins from airport) and EXPLICITLY ASK: "Are you comfortable with this corridor in North Bangalore?"
-   - If Budget is pending: Anchor upfront: "Our luxury villa plots start from ₹92.4 lakh up to ₹2.46 crore — is that starting price range comfortable for you?"
-   - If Timeline is pending: Check: "Our phased development is scheduled for completion by December 2029 — does that timeline align with your plans?"
-3. NEVER mark location_fit as "fit" unless the user explicitly confirmed they are okay with Nandi Hills / North Bangalore.
+2. STRICT QUALIFICATION SEQUENCE (Do not jump to site visit CTA prematurely):
+   - If Intent is pending: Ask if they are exploring for family weekend retreat vs long-term investment.
+   - If Geography is pending: Describe the private valley near Nandi Hills (~20 mins from airport) and EXPLICITLY ASK: "Are you comfortable with the Nandi Hills corridor in North Bangalore?"
+   - If Budget is pending: Anchor upfront: "Our private villa plots start from around ₹92.4 lakh up to ₹2.46 crore inclusive of taxes. Would that starting price fit comfortably within what you have in mind?"
+   - If Timeline is pending: Check: "Scheduled possession is in December 2029 as part of our phased masterplan. Does that timeline align with your expectations?"
+   - ONLY after all 4 checkpoints are qualified: deliver the Aspirational Private Valley pitch and ask the Senior Expert consultation CTA.
+3. NEVER mark location_fit as "fit" unless the user explicitly confirmed comfort with Nandi Hills / North Bangalore.
 4. Keep the response natural, warm, and consultative (1-3 fluid spoken sentences).
 `;
 

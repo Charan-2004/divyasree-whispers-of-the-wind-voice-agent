@@ -256,10 +256,11 @@ export function analyzeUserIntent(text: string, currentState: QualificationState
     extracted.handoff_requested = true;
   }
 
-  // Sequential Affirmation Resolver for clean answers (only when not objecting or negotiating)
+  // Robust Sequential Affirmation Resolver for clean answers (handles phonetic STT variants like "yesudas", "yes it does", "yes I am", "haan", etc.)
   const isCleanAffirmative = 
-    /^(yes|yeah|yep|sure|works|fine|ok|okay|good|comfortable|perfect|haan|theek|sahi|definitely)\b/i.test(lower) ||
-    lower === 'works' || lower === 'fine' || lower === 'yes' || lower === 'yep' || lower.includes('probably we can');
+    /^(yes|yeah|yep|sure|works|fine|ok|okay|good|comfortable|perfect|haan|theek|sahi|definitely|yesudas)/i.test(lower) ||
+    lower.startsWith('yes') || lower.startsWith('yeah') || lower.startsWith('yep') || lower.startsWith('sure') || lower.startsWith('haan') || lower.startsWith('theek') || lower.startsWith('ok') ||
+    lower.includes('yes') || lower.includes('yeah') || lower.includes('sure') || lower.includes('works') || lower.includes('comfortable') || lower.includes('i am') || lower.includes('it does') || lower.includes('yesudas') || lower.includes('probably we can');
 
   if (isCleanAffirmative && !isLowerBudgetQuery) {
     if (!currentState.permission) {
