@@ -347,7 +347,7 @@ async function startCallSession() {
   });
   
   dom.btnStartCall.disabled = true;
-  dom.btnBargeIn.disabled = false;
+  if (dom.btnBargeIn) dom.btnBargeIn.disabled = false;
   dom.btnEndCall.disabled = false;
   dom.manualTextInput.disabled = false;
   dom.btnSendText.disabled = false;
@@ -465,7 +465,7 @@ function endCallSession(notifyServer = true) {
   stopSpeechRecognition();
 
   dom.btnStartCall.disabled = false;
-  dom.btnBargeIn.disabled = true;
+  if (dom.btnBargeIn) dom.btnBargeIn.disabled = true;
   dom.btnEndCall.disabled = true;
   dom.manualTextInput.disabled = true;
   dom.btnSendText.disabled = true;
@@ -1153,7 +1153,7 @@ function toggleAutoVAD() {
 
 // Event Listeners
 dom.btnStartCall.addEventListener('click', startCallSession);
-dom.btnBargeIn.addEventListener('click', triggerBargeIn);
+if (dom.btnBargeIn) dom.btnBargeIn.addEventListener('click', triggerBargeIn);
 dom.btnEndCall.addEventListener('click', () => endCallSession(true));
 dom.btnSendText.addEventListener('click', sendUserText);
 dom.btnToggleAutoMic.addEventListener('click', toggleAutoVAD);
