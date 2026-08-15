@@ -24,7 +24,7 @@ export async function transcribeAudio(options: STTRequestOptions): Promise<STTRe
     try {
       // Build multipart/form-data for Sarvam STT REST API
       const formData = new FormData();
-      const audioBlob = new Blob([options.audioBuffer], { type: options.mimeType || 'audio/wav' });
+      const audioBlob = new Blob([new Uint8Array(options.audioBuffer)], { type: options.mimeType || 'audio/wav' });
       formData.append('file', audioBlob, 'audio.wav');
       formData.append('model', options.model || CONFIG.SARVAM_STT_MODEL || 'saaras:v3');
       

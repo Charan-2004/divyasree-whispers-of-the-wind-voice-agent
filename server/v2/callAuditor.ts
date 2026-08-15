@@ -1,5 +1,5 @@
 import { CONFIG } from '../config.js';
-import { QualificationState, ConversationState, CompletionState, LeadClassificationResult, calculateV2LeadClassification } from './stateEngine.js';
+import { QualificationState, ConversationState, CompletionState, calculateV2LeadClassification } from './stateEngine.js';
 import { ConversationHistoryMessage } from './conversationalPlanner.js';
 
 export interface InterruptionEvent {
@@ -11,7 +11,7 @@ export interface InterruptionEvent {
 
 export interface PostCallAuditResult {
   executive_summary: string;
-  lead_classification: 'HOT' | 'WARM' | 'COLD' | 'UNQUALIFIED' | 'DO_NOT_CONTACT';
+  lead_classification: 'HOT' | 'WARM' | 'COLD' | 'CALLBACK' | 'DO_NOT_CONTACT' | 'UNQUALIFIED';
   classification_reason: string;
   score: number;
   qualificationState: QualificationState;
@@ -205,87 +205,64 @@ export async function analyzeCompletedCall(
 
           const parsed = JSON.parse(rawJson);
 
-          const finalTimeline = (parsed.qualification.timeline_fit === 'unasked' || parsed.qualification.timeline_fit === 'null') 
-            ? null 
-            : (parsed.qualification.timeline_fit as any);
-
+          // Build final audited state
           const finalState: QualificationState = {
-            ...currentQualification,
-            intent: parsed.qualification.intent as any,
-            location_fit: parsed.qualification.location_fit as any,
-            budget_fit: parsed.qualification.budget_fit as any,
-            timeline_fit: finalTimeline,
-            handoff_requested: Boolean(parsed.qualification.handoff_requested),
-            objections: parsed.objections || []
+            ...deterministicState,
+            intent: parsed.qualification?.intent_identified !== undefined ? parsed.qualification.intent_identified : deterministicState.intent,
+            location_fit: parsed.qualification?.location_comfort !== undefined ? parsed.qualification.location_comfort : deterministicState.location_fit,
+            budget_fit: parsed.qualification?.budget_status !== undefined ? parsed.qualification.budget_status : deterministicState.budget_fit,
+            timeline_fit: parsed.qualification?.timeline_status !== undefined ? parsed.qualification.timeline_status : deterministicState.timeline_fit,
+            objections: Array.from(new Set([...deterministicState.objections, ...(parsed.objections_raised || [])])),
+            handoff_requested: parsed.senior_expert_followup?.required || deterministicState.handoff_requested
           };
 
           const classification = calculateV2LeadClassification(finalState);
 
           return {
-            executive_summary: parsed.executive_summary,
+            executive_summary: parsed.executive_summary || 'Executive synopsis generated.',
             lead_classification: classification.classification,
-            classification_reason: parsed.classification_reason || classification.recommendation,
+            classification_reason: parsed.classification_reason || classification.reason,
             score: classification.score,
             qualificationState: finalState,
             dimension_breakdown: {
-              intent: {
-                value: finalState.intent,
-                evidence: parsed.qualification.intent_evidence || 'From transcript',
-                confidence: 'HIGH'
-              },
-              location: {
-                value: finalState.location_fit,
-                evidence: parsed.qualification.location_evidence || 'From transcript',
-                confidence: 'HIGH'
-              },
-              budget: {
-                value: finalState.budget_fit,
-                evidence: parsed.qualification.budget_evidence || 'From transcript',
-                confidence: 'HIGH'
-              },
-              timeline: {
-                value: finalState.timeline_fit,
-                evidence: parsed.qualification.timeline_evidence || 'Not discussed in call',
-                confidence: finalState.timeline_fit ? 'HIGH' : 'NOT_ASKED'
-              }
+              intent: { value: finalState.intent, evidence: parsed.qualification?.intent_evidence || 'N/A', confidence: 'HIGH' },
+              location: { value: finalState.location_fit, evidence: parsed.qualification?.location_evidence || 'N/A', confidence: 'HIGH' },
+              budget: { value: finalState.budget_fit, evidence: parsed.qualification?.budget_evidence || 'N/A', confidence: 'HIGH' },
+              timeline: { value: finalState.timeline_fit, evidence: parsed.qualification?.timeline_evidence || 'N/A', confidence: 'HIGH' }
             },
             objections: finalState.objections,
             handoff_details: {
               requested: finalState.handoff_requested,
-              senior_expert_required: parsed.senior_expert_followup?.required || finalState.handoff_requested,
-              reason: parsed.senior_expert_followup?.reason || 'Prospect requested follow-up with Senior Property Expert for tailored milestone payment schedules.',
-              preferred_topics: parsed.senior_expert_followup?.topics || ['₹80 Lakhs payment schedule options', '38-acre valley plot masterplan', 'Site visit scheduling']
+              senior_expert_required: parsed.senior_expert_followup?.required || false,
+              reason: parsed.senior_expert_followup?.reason || 'Standard Handoff',
+              preferred_topics: parsed.senior_expert_followup?.topics || []
             },
             interruption_audit: {
               total_interruptions: interruptions.length,
               was_interrupted: interruptions.length > 0,
               interruption_events: interruptions,
-              fluidity_score: Math.max(40, 100 - interruptions.length * 15)
+              fluidity_score: Math.max(0, 100 - (interruptions.length * 10))
             },
-            suggested_next_steps: parsed.suggested_next_steps || [
-              'Senior Property Expert to call lead to bridge ₹80L vs ₹92.4L gap with milestone schedule',
-              'Share masterplan and Devanahalli corridor appreciation data via WhatsApp'
-            ]
+            suggested_next_steps: parsed.suggested_next_steps || []
           };
         }
       }
     } catch (llmErr) {
-      console.warn('Post-call LLM audit notice, using deterministic audit:', llmErr);
+      console.error('LLM Audit failed, falling back:', llmErr);
     }
   }
 
-  // Fallback return
   return {
-    executive_summary: `Prospect expressed ${deterministicState.intent || 'unclear'} intent and confirmed comfort with the Nandi Hills location. Budget discussion indicated preference for ~₹80 Lakhs (below ₹92.4L starting price). Prospect agreed to a Senior Property Expert follow-up.`,
+    executive_summary: `Prospect ${deterministicState.handoff_requested ? 'requested' : 'did not request'} a follow-up. Lead status based on deterministic analysis.`,
     lead_classification: deterministicClassification.classification,
-    classification_reason: deterministicClassification.recommendation,
+    classification_reason: deterministicClassification.reason,
     score: deterministicClassification.score,
     qualificationState: deterministicState,
     dimension_breakdown: {
-      intent: { value: deterministicState.intent, evidence: 'Identified from user utterances', confidence: 'HIGH' },
-      location: { value: deterministicState.location_fit, evidence: 'Comfort with Devanahalli corridor confirmed', confidence: 'HIGH' },
-      budget: { value: deterministicState.budget_fit, evidence: 'User requested ~₹80L budget', confidence: 'HIGH' },
-      timeline: { value: deterministicState.timeline_fit, evidence: 'Possession timeline was not discussed', confidence: 'NOT_ASKED' }
+      intent: { value: deterministicState.intent, evidence: 'Deterministic', confidence: 'LOW' },
+      location: { value: deterministicState.location_fit, evidence: 'Deterministic', confidence: 'LOW' },
+      budget: { value: deterministicState.budget_fit, evidence: 'Deterministic', confidence: 'LOW' },
+      timeline: { value: deterministicState.timeline_fit, evidence: 'Deterministic', confidence: 'LOW' }
     },
     objections: deterministicState.objections,
     handoff_details: {

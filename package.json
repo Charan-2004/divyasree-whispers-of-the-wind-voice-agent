@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch server/index.ts",
-    "start": "tsx server/index.ts",
     "build": "tsc",
+    "start": "node dist/server/index.js",
     "test": "vitest run",
     "test:flows": "tsx scripts/runSimulationFlows.ts"
   },
