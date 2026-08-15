@@ -271,8 +271,17 @@ function generateDeterministicV2Plan(
 
   // Direct FAQ Answer
   if (faqAnswer) {
+    let nextStepQuestion = " Would you like to know more about the masterplan or our private site visits this weekend?";
+    if (!mergedState.location_fit) {
+      nextStepQuestion = " The community is located in Nandi Valley, about 20 minutes from the airport with scenic hill panoramas. Are you comfortable with the Nandi Hills corridor?";
+    } else if (!mergedState.budget_fit) {
+      nextStepQuestion = " Our private villa plots start from around ₹92.4 lakh inclusive of taxes. Would that starting price fit comfortably within what you have in mind?";
+    } else if (!mergedState.timeline_fit) {
+      nextStepQuestion = " Scheduled possession is in December 2029 as part of our phased masterplan. Does that timeline align with your expectations?";
+    }
+
     return {
-      reply: faqAnswer + " Would you like to know more about the masterplan or our private site visits this weekend?",
+      reply: faqAnswer + nextStepQuestion,
       tone: 'confident',
       user_intent: 'DIRECT_QUESTION',
       proposed_qualification_updates: intentAnalysis.extracted_dimension,

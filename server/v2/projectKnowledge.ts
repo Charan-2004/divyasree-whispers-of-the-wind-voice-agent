@@ -81,28 +81,63 @@ export const PROJECT_FAQS = [
     answer: "Plot sizes range from 1,200 square feet up to 3,199 square feet, giving you ample space to build a custom private family villa."
   },
   {
-    keywords: ['who', 'developer', 'builder', 'company', 'divyasree', 'about'],
+    keywords: ['developer', 'builder', 'company', 'divyasree', 'about builder'],
     answer: "Whispers of the Wind is developed by Divyasree Developers, who bring over 30 years of premier institutional real estate heritage across South India."
   },
   {
-    keywords: ['investment', 'returns', 'yield', 'roi', 'growth', 'appreciation'],
+    keywords: ['roi', 'returns', 'yield', 'capital appreciation', 'what is the return', 'growth rate'],
     answer: "Positioned in the booming North Bangalore airport corridor near KIADB tech parks, plotted land in this private valley offers strong long-term capital appreciation."
   },
   {
     keywords: ['who gave', 'how did you get', 'where did you get', 'got my number', 'gave you my number', 'get my number', 'kahan se', 'kisne diya', 'source', 'reference', 'number first'],
     answer: "I apologize for any surprise — your contact was shared with us through our premium property partner network for real estate inquiries in Bangalore. May I take just one minute to introduce Whispers of the Wind, or would you prefer I not disturb you?"
-  },
-  {
-    keywords: ['weekend', 'holiday', 'family', 'retreat', 'stay', 'self use', 'peaceful'],
-    answer: "With 74% open green spaces, fresh hill air, and valley seclusion, it is designed as a peaceful private retreat for families away from city traffic."
   }
 ];
 
 /**
- * Searches and retrieves the best matching verified FAQ answer
+ * Searches and retrieves the best matching verified FAQ answer (only for actual inquiries)
  */
 export function queryProjectFAQ(query: string): string | null {
-  const lower = query.toLowerCase();
+  const lower = query.toLowerCase().trim();
+  
+  // Guard: Pure answers to qualification questions should never be treated as FAQ lookups
+  if (
+    lower === 'investment' || 
+    lower === 'long term investment' || 
+    lower === 'you long term investment' || 
+    lower === 'weekend' || 
+    lower === 'self use' || 
+    lower === 'weekend retreat' || 
+    lower === 'both' ||
+    lower === 'yes' ||
+    lower === 'no' ||
+    lower === 'yes i do' ||
+    lower === 'yes i am'
+  ) {
+    return null;
+  }
+
+  const isQuestion = 
+    lower.includes('what') || 
+    lower.includes('where') || 
+    lower.includes('how') || 
+    lower.includes('who') || 
+    lower.includes('when') || 
+    lower.includes('why') || 
+    lower.includes('which') || 
+    lower.includes('is there') || 
+    lower.includes('do you have') || 
+    lower.includes('tell me about') || 
+    lower.includes('explain') || 
+    lower.includes('details') || 
+    lower.includes('got my number') || 
+    lower.includes('get my number') || 
+    lower.includes('roi') || 
+    lower.includes('returns') ||
+    lower.endsWith('?');
+
+  if (!isQuestion) return null;
+
   for (const faq of PROJECT_FAQS) {
     if (faq.keywords.some(k => lower.includes(k))) {
       return faq.answer;
