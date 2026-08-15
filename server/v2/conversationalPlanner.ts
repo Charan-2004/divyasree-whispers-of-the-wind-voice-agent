@@ -291,8 +291,23 @@ function generateDeterministicV2Plan(
     };
   }
 
-  // Location Mismatch
-  if (intentAnalysis.extracted_dimension.location_fit === 'not_fit') {
+  // Location Mismatch (Newly detected or Follow-up response)
+  if (mergedState.location_fit === 'not_fit') {
+    if (state.location_fit === 'not_fit') {
+      // User responded to "Would you like me to keep your contact on file?"
+      return {
+        reply: isHindi
+          ? "बहुत-बहुत धन्यवाद! मैंने आपकी जानकारी सुरक्षित कर ली है। जब भी ईस्ट बैंगलोर में नया प्रोजेक्ट आएगा, हम आपसे संपर्क करेंगे। आपका दिन शुभ हो, नमस्ते!"
+          : "Thank you so much! I have noted your contact and we will make sure to update you when we launch developments in the East Bangalore corridor. Have a wonderful day!",
+        tone: 'warm',
+        user_intent: 'CLOSING',
+        proposed_qualification_updates: intentAnalysis.extracted_dimension,
+        next_conversation_state: 'closing',
+        next_completion_state: 'COMPLETED',
+        should_end_call: true
+      };
+    }
+
     return {
       reply: isHindi
         ? "समझ गया, नंदी हिल्स आपके लिए दूर हो सकता है। यह प्रोजेक्ट विशेष रूप से शांत वीकेंड वैली रिट्रीट के लिए है। क्या आप चाहेंगे कि हम ईस्ट बैंगलोर के किसी प्रोजेक्ट के लिए आपकी जानकारी नोट कर लें?"
@@ -306,8 +321,22 @@ function generateDeterministicV2Plan(
     };
   }
 
-  // Budget Mismatch
-  if (intentAnalysis.extracted_dimension.budget_fit === 'below_budget') {
+  // Budget Mismatch (Newly detected or Follow-up response)
+  if (mergedState.budget_fit === 'below_budget') {
+    if (state.budget_fit === 'below_budget') {
+      return {
+        reply: isHindi
+          ? "बहुत-बहुत धन्यवाद! आपका दिन शुभ हो और अपना ख्याल रखें।"
+          : "Thank you so much for your time today! Have a wonderful day ahead and take care.",
+        tone: 'warm',
+        user_intent: 'CLOSING',
+        proposed_qualification_updates: intentAnalysis.extracted_dimension,
+        next_conversation_state: 'closing',
+        next_completion_state: 'COMPLETED',
+        should_end_call: true
+      };
+    }
+
     return {
       reply: isHindi
         ? "समझ गया। व्हिस्पर्स ऑफ द विंड में हमारे विला प्लॉट्स 92.4 लाख से शुरू होते हैं। मैं आपकी जानकारी नोट कर लेता हूँ ताकि अगर कोई छोटा प्लॉट उपलब्ध हो तो आपको सूचित किया जा सके।"

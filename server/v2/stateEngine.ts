@@ -265,13 +265,16 @@ export function analyzeUserIntent(text: string, currentState: QualificationState
   if (isCleanAffirmative && !isLowerBudgetQuery) {
     if (!currentState.permission) {
       extracted.permission = 'granted';
-    } else if (currentState.intent && !currentState.location_fit) {
+    } else if (currentState.location_fit === 'not_fit' || currentState.budget_fit === 'below_budget') {
+      // User is acknowledging the mismatch wrap-up
+      extracted.handoff_requested = false;
+    } else if (currentState.intent && currentState.location_fit === null) {
       extracted.location_fit = 'fit';
-    } else if (currentState.location_fit && !currentState.budget_fit) {
+    } else if (currentState.location_fit === 'fit' && currentState.budget_fit === null) {
       extracted.budget_fit = 'fit';
-    } else if (currentState.budget_fit && !currentState.timeline_fit) {
+    } else if (currentState.budget_fit === 'fit' && currentState.timeline_fit === null) {
       extracted.timeline_fit = 'fit';
-    } else if (currentState.timeline_fit && !currentState.handoff_requested) {
+    } else if (currentState.timeline_fit === 'fit' && !currentState.handoff_requested) {
       extracted.handoff_requested = true;
     }
   }
