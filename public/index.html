@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Divyasree Whispers of the Wind | AI Voice Qualification Consultant</title>
+  <meta name="description" content="Outbound AI Voice Consultant qualifying luxury leads for Whispers of the Wind private valley villa plots in Nandi Hills, Bengaluru.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Luxury Navigation Bar -->
+    <header class="top-nav">
+      <div class="brand-block">
+        <span class="brand-crest">✦</span>
+        <div class="brand-text">
+          <h1 class="brand-title">DIVYASREE</h1>
+          <p class="brand-tagline">WHISPERS OF THE WIND • NANDI VALLEY</p>
+        </div>
+      </div>
+
+      <div class="system-status-badge">
+        <span class="status-indicator-dot online"></span>
+        <span class="status-label" id="connectionStatus">System Connected • Gemini 2.5 Flash & Sarvam v3</span>
+      </div>
+    </header>
+
+    <!-- Main Workspace Grid -->
+    <main class="main-grid">
+      <!-- Left Column: Outbound Call Center & Voice Indicator -->
+      <section class="call-control-panel card-surface">
+        <div class="panel-header">
+          <div class="header-label-group">
+            <span class="section-kicker">OUTBOUND DIALER</span>
+            <h2 class="section-heading">Lead Voice Session</h2>
+          </div>
+          <div class="call-timer-badge" id="callTimer">00:00</div>
+        </div>
+
+        <!-- Lead Metadata Card -->
+        <div class="lead-selector-wrapper">
+          <div class="lead-meta-row" id="leadMeta">
+            <div class="meta-item">
+              <span class="meta-icon">📞</span>
+              <span class="meta-val" id="leadPhone">Live Mic / Freeform Voice</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-icon">📍</span>
+              <span class="meta-val" id="leadCity">Direct Lead Session</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-icon">🎯</span>
+              <span class="meta-val" id="leadGoal">Real-Time Qualification</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Voice Visualizer Ring Container -->
+        <div class="voice-stage">
+          <div class="voice-orb-container" id="orbContainer">
+            <div class="pulse-ring ring-1"></div>
+            <div class="pulse-ring ring-2"></div>
+            <div class="pulse-ring ring-3"></div>
+            <div class="central-orb" id="centralOrb">
+              <div class="sound-wave-bars">
+                <span class="bar bar-1"></span>
+                <span class="bar bar-2"></span>
+                <span class="bar bar-3"></span>
+                <span class="bar bar-4"></span>
+                <span class="bar bar-5"></span>
+              </div>
+            </div>
+          </div>
+          <div class="voice-status-text" id="voiceStatusText">Ready to Initiate Call</div>
+        </div>
+
+        <!-- Primary Call Actions -->
+        <div class="call-actions-row">
+          <button id="btnStartCall" class="btn-primary-action btn-call">
+            <span class="btn-icon">📞</span>
+            <span class="btn-label">Call Lead</span>
+          </button>
+          
+          <button id="btnBargeIn" class="btn-secondary-action btn-interrupt" disabled>
+            <span class="btn-icon">✋</span>
+            <span class="btn-label">Barge-in / Interrupt</span>
+          </button>
+
+          <button id="btnEndCall" class="btn-danger-action btn-hangup" disabled>
+            <span class="btn-icon">✖</span>
+            <span class="btn-label">End Call</span>
+          </button>
+        </div>
+
+        <!-- Voice / Mic Audio Mode -->
+        <div class="mic-status-bar">
+          <div class="mic-toggle-group">
+            <button id="btnPushToTalk" class="btn-ptt" title="Click or Hold Spacebar to speak cleanly">
+              <span class="mic-icon-indicator" id="micIcon">🎙️</span>
+              <span class="mic-label" id="micStatusLabel">Tap or Hold Space to Speak</span>
+            </button>
+            <button id="btnToggleAutoMic" class="btn-mic-mode" title="Toggle Auto Voice Activation">
+              Auto VAD: ON
+            </button>
+          </div>
+          <div class="text-fallback-input-group">
+            <input type="text" id="manualTextInput" placeholder="Speak into mic or type your question..." disabled>
+            <button id="btnSendText" class="btn-send" disabled>→</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Middle Column: Live Qualification Checklist Card -->
+      <section class="qualification-panel card-surface">
+        <div class="panel-header">
+          <div class="header-label-group">
+            <span class="section-kicker">QUALIFICATION STATE MACHINE</span>
+            <h2 class="section-heading">4-Point Lead Fitment</h2>
+          </div>
+          <div class="score-pill score-warm" id="leadClassificationBadge">WARM</div>
+        </div>
+
+        <div class="checkpoints-list">
+          <!-- Checkpoint 1: Intent -->
+          <div class="checkpoint-card" id="cardIntent">
+            <div class="checkpoint-icon">🏡</div>
+            <div class="checkpoint-body">
+              <div class="checkpoint-top">
+                <span class="checkpoint-title">1. Intent Qualification</span>
+                <span class="status-chip chip-pending" id="statusIntent">Pending</span>
+              </div>
+              <p class="checkpoint-desc">Self-use / Weekend retreat vs. Long-term investment</p>
+              <div class="checkpoint-val" id="valIntent">Awaiting lead input...</div>
+            </div>
+          </div>
+
+          <!-- Checkpoint 2: Geography -->
+          <div class="checkpoint-card" id="cardGeography">
+            <div class="checkpoint-icon">🌄</div>
+            <div class="checkpoint-body">
+              <div class="checkpoint-top">
+                <span class="checkpoint-title">2. Geography & Corridor</span>
+                <span class="status-chip chip-pending" id="statusGeography">Pending</span>
+              </div>
+              <p class="checkpoint-desc">Comfort with Nandi Hills / Devanahalli corridor</p>
+              <div class="checkpoint-val" id="valGeography">Awaiting lead input...</div>
+            </div>
+          </div>
+
+          <!-- Checkpoint 3: Budget -->
+          <div class="checkpoint-card" id="cardBudget">
+            <div class="checkpoint-icon">💎</div>
+            <div class="checkpoint-body">
+              <div class="checkpoint-top">
+                <span class="checkpoint-title">3. Source Budget Fitment</span>
+                <span class="status-chip chip-pending" id="statusBudget">Pending</span>
+              </div>
+              <p class="checkpoint-desc">Comfort with ₹92.4 Lakh+ starting price</p>
+              <div class="checkpoint-val" id="valBudget">Awaiting lead input...</div>
+            </div>
+          </div>
+
+          <!-- Checkpoint 4: Timeline -->
+          <div class="checkpoint-card" id="cardTimeline">
+            <div class="checkpoint-icon">⏳</div>
+            <div class="checkpoint-body">
+              <div class="checkpoint-top">
+                <span class="checkpoint-title">4. Possession Timeline</span>
+                <span class="status-chip chip-pending" id="statusTimeline">Pending</span>
+              </div>
+              <p class="checkpoint-desc">Phased delivery completing by December 2029</p>
+              <div class="checkpoint-val" id="valTimeline">Awaiting lead input...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Handoff & Value Proposition Summary -->
+        <div class="project-pitch-box">
+          <div class="pitch-title">✦ Private Valley Lifestyle Differentiators</div>
+          <div class="pitch-tags">
+            <span class="pill-tag">38-Acre Valley</span>
+            <span class="pill-tag">74% Open Spaces</span>
+            <span class="pill-tag">20,000 sq.ft. Clubhouse</span>
+            <span class="pill-tag">Scenic Nandi Views</span>
+            <span class="pill-tag">20 Min to BLR Airport</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Live Conversation Transcript -->
+      <section class="transcript-panel card-surface">
+        <div class="panel-header">
+          <div class="header-label-group">
+            <span class="section-kicker">REAL-TIME CALL AUDIT</span>
+            <h2 class="section-heading">Live Conversation Transcript</h2>
+          </div>
+          <button class="btn-ghost-sm" id="btnClearLog">Clear Log</button>
+        </div>
+
+        <!-- Transcript Feed Box -->
+        <div class="transcript-feed" id="transcriptFeed">
+          <div class="transcript-placeholder">
+            <div class="placeholder-icon">💬</div>
+            <div class="placeholder-text">Click "Call Lead" to begin real-time voice consultation with Rohan.</div>
+          </div>
+        </div>
+
+        <div class="transcript-footer">
+          <button class="btn-secondary-action btn-full" id="btnExportSummary">
+            <span>📄 View Lead Summary & Export Report</span>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal: Lead Summary & Report -->
+    <div class="modal-backdrop" id="summaryModal">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <h3 class="modal-title">Lead Qualification Summary</h3>
+          <button class="modal-close" id="btnCloseModal">&times;</button>
+        </div>
+        <div class="modal-body" id="modalBody">
+          <!-- Dynamically populated -->
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary-action" id="btnCopyJson">Copy Full JSON</button>
+          <button class="btn-primary-action" id="btnCloseModalBtn">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LiveKit WebRTC Cloud Client SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/livekit-client@2.6.0/dist/livekit-client.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

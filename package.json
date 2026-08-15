@@ -1,0 +1,40 @@
+{
+  "name": "divyasree-whispers-of-the-wind-voice-agent",
+  "version": "1.0.0",
+  "description": "Production-grade Outbound AI Voice Agent for Divyasree Whispers of the Wind (WOW) Lead Qualification",
+  "main": "server/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch server/index.ts",
+    "start": "tsx server/index.ts",
+    "build": "tsc",
+    "test": "vitest run",
+    "test:flows": "tsx scripts/runSimulationFlows.ts"
+  },
+  "keywords": [
+    "ai-voice-agent",
+    "divyasree",
+    "whispers-of-the-wind",
+    "sarvam-ai",
+    "gemini",
+    "real-estate"
+  ],
+  "author": "Autonomous AI Lead Engineer",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "livekit-server-sdk": "^2.17.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.4",
+    "@types/ws": "^8.5.14",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
+  }
+}
